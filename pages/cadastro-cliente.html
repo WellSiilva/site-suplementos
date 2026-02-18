@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSuplementos | Oficial</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div class="logo">
+            <a href="../pages/index.html">
+                <img src="../assets/img/logo-well.png" alt="WellSuplementos" class="logo-principal">
+            </a>
+        </div>
+
+<div class="search-container">
+    <input type="text" id="inputBusca" placeholder="Encontre o suplemento ideal para você">
+    <button class="search-btn" id="btnBusca">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</div>
+
+<div class="user-menu">
+    <a href="../pages/login.html" class="user-login" id="user-menu-link">
+        <i class="fa-regular fa-user"></i>
+        <div class="login-text" id="user-menu-text">
+            <strong>Cadastre-se</strong>
+            <span>ou faça seu login</span>
+        </div>
+    </a>
+
+            <a href="favoritos.html" class="user-favorites">
+                <i class="fa-regular fa-heart"></i>
+                <span>Favoritos</span>
+            </a>
+
+<div class="user-cart">
+    <a href="../pages/carrinho.html" class="cart-link">
+        <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count">0</span>
+        </div>
+    </a>
+</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="category-nav">
+    <div class="container no-padding">
+        <ul class="nav-list">
+            <li class="dropdown">
+                <a href="#"><i class="fa-solid fa-bars"></i> PRODUTOS <i class="fa-solid fa-chevron-down"></i></a>
+                <ul class="submenu">
+                    <li><a href="../pages/cafeina.html">Cafeína</a></li>
+                    <li><a href="../pages/colageno.html">Colágeno</a></li>
+                    <li><a href="../pages/omega3.html">Ômega 3</a></li>
+                    <li><a href="../pages/whey.html">Whey 100% Concentrado</a></li>
+                    <li><a href="../pages/whey-isolado.html">Whey Isolado</a></li>
+                    <li><a href="../pages/termogenico.html">Termogênico</a></li>
+                    <li><a href="../pages/zma.html">ZMA / Pré Hormonal</a></li>
+                </ul>
+            </li>
+            <li><a href="../pages/bcaa.html">BCAA</a></li>
+            <li><a href="../pages/creatina.html">CREATINA</a></li>
+            <li><a href="../pages/whey.html">WHEY PROTEIN</a></li>
+            <li><a href="../pages/barra-proteina.html">BARRA DE PROTEÍNA</a></li>
+            <li><a href="../pages/hipercalorico.html">HIPERCALÓRICO</a></li>
+            <li><a href="../pages/pre-treino.html">PRÉ TREINO</a></li>
+            <li><a href="../pages/promoções.html">PROMOÇÕES</a></li>
+            <li><a href="../pages/objetivos.html">OBJETIVOS <i class="fa-solid fa-chevron-down"></i></a></li>
+        </ul>
+    </div>
+</nav>
+
+ <main class="register-page container-fixed">
+    <div class="register-container">
+        <h1>Crie uma conta</h1>
+        
+        <form id="formCadastro" class="row g-3">
+            <div class="col-md-4 form-group">
+                <label for="nome">NOME</label>
+                <input type="text" id="nome" class="form-control" placeholder="Seu nome" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="sobrenome">SOBRENOME</label>
+                <input type="text" id="sobrenome" class="form-control" placeholder="Seu sobrenome" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="email">E-MAIL</label>
+                <input type="email" id="email" class="form-control" placeholder="seuemail@exemplo.com" required>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="celular">CELULAR</label>
+                <input type="text" id="celular" class="form-control" placeholder="(11) 99999-9999" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="senha">SENHA</label>
+                <input type="password" id="senha" class="form-control" placeholder="Crie uma senha" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="confirmar-senha">CONFIRMAR SENHA</label>
+                <input type="password" id="confirmar-senha" class="form-control" placeholder="Repita a senha" required>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" class="form-control" maxlength="9" placeholder="00000-000" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="rua">RUA</label>
+                <input type="text" id="rua" class="form-control" placeholder="Logradouro" required>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="numero">NÚMERO</label>
+                <input type="text" id="numero" class="form-control" placeholder="Ex: 123" required>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label for="bairro">BAIRRO</label>
+                <input type="text" id="bairro" class="form-control" placeholder="Bairro" required>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="cidade">CIDADE</label>
+                <input type="text" id="cidade" class="form-control" placeholder="Cidade" required>
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="uf">UF</label>
+                <input type="text" id="uf" class="form-control" maxlength="2" placeholder="UF" required>
+            </div>
+            
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn-buy w-100" style="height: 45px; margin-bottom: 0;">
+                    <i class="fa-solid fa-user-plus"></i> CADASTRAR
+                </button>
+            </div>
+        </form>
+        
+        <div class="register-links text-center mt-4">
+            <a href="login.html" style="color: #ff8c00; font-weight: bold; text-decoration: none;">
+                Já tem uma conta? Conecte-se
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer class="footer-site">
+    <div class="container-fixed">
+        <div class="footer-content">
+            
+            <div class="footer-col">
+                <div class="footer-logo-brand">
+                    <h2>Well<span>Suplementos</span></h2>
+                </div>
+                <p>Seg à Sex — das 09h às 18h</p>
+                <p>sac@wellsuplementos.com.br</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Institucional</h3>
+                <ul>
+                    <li><a href="#">A empresa</a></li>
+                    <li><a href="#">Segurança</a></li>
+                    <li><a href="#">Política de privacidade</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Ajuda e Suporte</h3>
+                <ul>
+                    <li><a href="#">Como Comprar</a></li>
+                    <li><a href="#">Entregas</a></li>
+                    <li><a href="#">Pagamentos</a></li>
+                    <li><a href="#">Trocas e devoluções</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Pagamento</h3>
+                <div class="payment-methods">
+                    <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                    <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+                    <span class="brand-elo">ELO</span>
+                    <i class="fa-brands fa-pix" title="Pix"></i>
+                    <span class="brand-mp">Mercado Pago</span>
+                </div>
+
+                <h3 style="margin-top: 25px;">Segurança</h3>
+                <div class="security-icons">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>SSL Blindado</span>
+                </div>
+            </div>
+
+        </div> <div class="footer-bottom">
+            <p>Well Suplementos – CNPJ: 56.412.301/0001-38 – Todos os direitos reservados. 2026.</p>
+        </div>
+
+    </div> </footer>
+
+    <a href="https://wa.me/5511933935926" class="whatsapp-float" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+<script>
+// Fetch address by CEP using ViaCEP API
+document.addEventListener('DOMContentLoaded', function () {
+    const inputCep = document.getElementById('cep');
+    if (!inputCep) return;
+
+    inputCep.addEventListener('blur', async function () {
+        const cep = this.value.replace(/\D/g, '');
+        if (cep.length !== 8) {
+            alert('CEP inválido. Por favor, insira um CEP válido com 8 dígitos.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                alert('CEP não encontrado!');
+                return;
+            }
+
+            document.getElementById('rua').value = data.logradouro || '';
+            document.getElementById('bairro').value = data.bairro || '';
+            document.getElementById('cidade').value = data.localidade || '';
+            document.getElementById('uf').value = data.uf || '';
+        } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Erro ao buscar o CEP. Tente novamente mais tarde.');
+        }
+    });
+});
+</script>
+<script src="../js/cadastro.js" defer></script>
+<style>
+/* =========================================================
+   PÁGINA DE CADASTRO - ESTILO DARKLAB CONSOLIDADO
+   ========================================================= */
+.register-page {
+    background-color: #f9f9f9; /* Um cinza quase branco para dar profundidade ao card */
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 850px; 
+    background-color: #ffffff; /* Fundo do formulário totalmente branco */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Sombra suave para destacar do fundo */
+    border: 1px solid #eee;
+}
+
+.register-page h1 {
+    color: #222; /* Título escuro para contraste no fundo claro */
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 28px;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+/* Labels agora em cor escura para visibilidade */
+.form-group label {
+    color: #444; 
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+}
+
+/* Inputs com bordas visíveis e foco em Laranja */
+.form-control {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important; /* Borda visível mas suave */
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+    border-color: #ff8c00 !important; /* Foco laranja da marca */
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1) !important;
+    outline: none;
+}
+
+/* Botão de Ação Laranja Destacado */
+.btn-register-action {
+    background: linear-gradient(180deg, #ff9d2e 0%, #ff8c00 100%) !important; /* Degradê oficial da vitrine */
+    color: #fff !important;
+    border: none !important;
+    padding: 16px 60px !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    text-transform: uppercase !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    
+    /* Centralização Flexbox */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important; /* Espaço entre o ícone e o texto */
+    
+    margin: 30px auto 0 !important; /* Centraliza o bloco na div */
+    width: 100% !important;
+    max-width: 450px !important; /* Largura proporcional ao formulário */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-register-action:hover {
+    background: linear-gradient(180deg, #ff8c00 0%, #e67e00 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3) !important;
+}
+
+/* Ajuste no link abaixo do botão para manter a centralização */
+.register-links {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-links a {
+    color: #ff8c00; /* Laranja em destaque para o link de login */
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+}

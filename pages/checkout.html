@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido - Well Suplementos</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="../js/index.js" defer></script>
+</head>
+<body>
+    <header>
+        <!-- ...existing header code... -->
+    </header>
+
+    <main class="checkout">
+        <h1>Finalizar Pedido</h1>
+        <div class="checkout-summary">
+            <h2>Resumo do Pedido</h2>
+            <p>Nome do Cliente: <span id="customer-name">[Nome do Cliente]</span></p>
+            <p>Endereço de Entrega: <span id="delivery-address">[Endereço do Cliente]</span></p>
+            <p>Produtos:</p>
+            <ul id="product-list">
+                <!-- Lista de produtos será gerada dinamicamente -->
+            </ul>
+            <p>Total: <span id="total-price">R$ 0,00</span></p>
+            <button id="send-whatsapp">Enviar Pedido pelo WhatsApp</button>
+        </div>
+    </main>
+
+    <footer class="footer-site">
+        <!-- ...existing footer code... -->
+    </footer>
+
+    <script>
+        document.getElementById('send-whatsapp').addEventListener('click', () => {
+            const customerName = document.getElementById('customer-name').textContent;
+            const deliveryAddress = document.getElementById('delivery-address').textContent;
+            const productList = Array.from(document.querySelectorAll('#product-list li')).map(item => item.textContent).join(', ');
+            const totalPrice = document.getElementById('total-price').textContent;
+
+            const message = `Olá, meu nome é ${customerName}. Gostaria de finalizar meu pedido com os seguintes detalhes:\n\n` +
+                            `Endereço de Entrega: ${deliveryAddress}\n` +
+                            `Produtos: ${productList}\n` +
+                            `Valor Total: ${totalPrice}\n\n` +
+                            `Aguarde que você já será atendido!`;
+
+            const whatsappUrl = `https://wa.me/5511933935926?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/carrinho.js"></script>
+</body>
+</html>
