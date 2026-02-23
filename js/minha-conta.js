@@ -1,35 +1,61 @@
 /* =========================================================
-   LÓGICA DA PÁGINA MINHA CONTA - WELL SUPLEMENTOS
+   LÓGICA DA PÁGINA MINHA CONTA - WELL SUPLEMENTOS (FIREBASE)
    ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Recupera os dados da sessão ativa e do cadastro completo
-    const sessao = JSON.parse(localStorage.getItem('usuario_logado'));
-    const dadosCompletos = JSON.parse(localStorage.getItem('cliente_well'));
+    
+    // 1. Escuta o estado da autenticação em tempo real
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log("Usuário autenticado. UID:", user.uid);
+            // Inicia o carregamento dos dados do Firestore
+            carregarPerfil(user.uid);
+        } else {
+            // Proteção de Rota: Se não houver login, volta para o login.html
+            console.warn("Nenhum usuário logado detectado. Redirecionando...");
+            window.location.href = 'login.html';
+        }
+    });
 
-    // Proteção de Rota: Se não houver login ativo, volta para o login
-    if (!sessao || !sessao.logado) {
-        window.location.href = 'login.html';
-        return;
+    // 2. Função para buscar os dados no Cloud Firestore (Modo Silencioso)
+    function carregarPerfil(uid) {
+        db.collection("usuarios").doc(uid).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const dados = doc.data();
+                    preencherTela(dados);
+                    console.log("Perfil carregado com sucesso!"); // QA Log
+                } else {
+                    console.warn("Usuário autenticado, mas o documento não existe no Firestore.");
+                }
+            })
+            .catch((error) => {
+                console.error("Erro técnico ao carregar perfil:", error.message);
+                
+                // Lembrete de QA: Este erro ocorre se as regras do Firestore estiverem bloqueadas
+                if (error.code === 'permission-denied') {
+                    console.error("ERRO DE PERMISSÃO: Verifique as regras do Firestore.");
+                }
+            });
     }
 
-    // 2. Função auxiliar para preencher a tela (Usa os IDs display- conforme seu HTML)
-    const preencherTexto = (id, valor) => {
-        const elemento = document.getElementById(id);
-        if (elemento) {
-            elemento.innerText = valor || "---";
-        }
-    };
+    // 3. Preenchimento da Tela (Usa seus IDs 'display-')
+    function preencherTela(dados) {
+        const preencherTexto = (id, valor) => {
+            const elemento = document.getElementById(id);
+            if (elemento) {
+                // Remove os tracinhos '---' e injeta o dado real
+                elemento.innerText = valor || "---";
+            }
+        };
 
-    // 3. Preenchimento dos Dados Pessoais
-    if (dadosCompletos) {
-        // Usa o nome completo do cadastro
-        const nomeCompleto = `${dadosCompletos.nome} ${dadosCompletos.sobrenome || ''}`;
+        // Dados Pessoais (Alinhados com o seu print do banco)
+        const nomeCompleto = `${dados.nome || ''} ${dados.sobrenome || ''}`.trim();
         preencherTexto('display-nome', nomeCompleto);
-        preencherTexto('display-email', dadosCompletos.email);
-        preencherTexto('display-celular', dadosCompletos.celular);
+        preencherTexto('display-email', dados.email);
+        preencherTexto('display-celular', dados.celular);
         
-        // 4. Preenchimento do Endereço
-        const end = dadosCompletos.endereco;
+        // Endereço (Objeto aninhado 'endereco' no Firestore)
+        const end = dados.endereco;
         if (end) {
             preencherTexto('display-rua', end.rua);
             preencherTexto('display-numero', end.numero);
@@ -40,19 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
 /* =========================================================
-   FUNÇÃO DE LOGOUT (FORCE GLOBAL)
+   FUNÇÃO DE LOGOUT (Sincronizada para funcionar no onclick do HTML)
    ========================================================= */
-window.logout = function() {
-    // 1. Exibe o popup de confirmação
-    const confirma = confirm("Deseja realmente sair da Well Suplementos?");
-
-    if (confirma) {
-        // 2. Remove a sessão
-        localStorage.removeItem('usuario_logado');
-
-        // 3. Redireciona para a home
-        // Se estiver na pasta /pages/, use '../index.html'
-        window.location.href = '../index.html'; 
+// Usamos window.efetuarLogout para bater com o nome que você colocou no botão
+window.efetuarLogout = function(event) {
+    if (event) event.preventDefault();
+    
+    if (confirm("Deseja realmente sair da Well Suplementos?")) {
+        auth.signOut()
+            .then(() => {
+                console.log("Sessão encerrada com sucesso.");
+                localStorage.removeItem('usuario_logado');
+                window.location.href = '../index.html'; 
+            })
+            .catch((error) => {
+                console.error("Erro ao processar logout:", error.message);
+            });
     }
 };

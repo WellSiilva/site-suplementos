@@ -2,13 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formCadastro');
     const cepInput = document.getElementById('cep');
 
-    // --- 1. PREENCHIMENTO AUTOMÁTICO DE CEP (ViaCEP) ---
+    // --- 1. PREENCHIMENTO AUTOMÁTICO DE CEP --- 
     if (cepInput) {
         cepInput.addEventListener('blur', () => {
-            let cep = cepInput.value.replace(/\D/g, ''); // Limpa caracteres não numéricos
+            let cep = cepInput.value.replace(/\D/g, ''); 
 
             if (cep.length === 8) {
-                // Padrão de automação: Requisição assíncrona para preencher endereço
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(response => response.json())
                     .then(dados => {
@@ -17,55 +16,73 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.getElementById('bairro').value = dados.bairro;
                             document.getElementById('cidade').value = dados.localidade;
                             document.getElementById('uf').value = dados.uf;
-                            document.getElementById('numero').focus(); // Move o foco para o próximo campo vazio
+                            document.getElementById('numero').focus();
                         } else {
                             alert("CEP não encontrado.");
                         }
                     })
-                    .catch(() => alert("Erro ao buscar CEP. Verifique sua conexão."));
+                    .catch(() => alert("Erro ao buscar CEP."));
             }
         });
     }
 
-    // --- 2. SUBMISSÃO DO FORMULÁRIO ---
+    // --- 2. SUBMISSÃO PARA BANCO DE DADOS REAL (FIREBASE) ---
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Validação de Senhas (QA Check)
+            const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
             const confirma = document.getElementById('confirmar-senha').value;
 
+            // Validação de segurança básica
             if (senha !== confirma) {
-                alert("As senhas não coincidem. Por favor, verifique.");
-                document.getElementById('confirmar-senha').focus();
+                alert("As senhas não coincidem.");
                 return;
             }
 
-            // Captura de dados estruturada para o Banco (LocalStorage)
-            const cliente = {
-                nome: document.getElementById('nome').value,
-                sobrenome: document.getElementById('sobrenome').value,
-                email: document.getElementById('email').value,
-                celular: document.getElementById('celular').value,
-                senha: senha, // Necessário para o sistema de login funcionar
-                endereco: {
-                    cep: document.getElementById('cep').value,
-                    rua: document.getElementById('rua').value,
-                    numero: document.getElementById('numero').value,
-                    bairro: document.getElementById('bairro').value,
-                    cidade: document.getElementById('cidade').value,
-                    uf: document.getElementById('uf').value
-                },
-                dataCadastro: new Date().toISOString()
-            };
+            // 1. Cria a conta de autenticação (Garante o Login futuro)
+auth.createUserWithEmailAndPassword(email, senha)
+    .then((userCredential) => {
+        const uid = userCredential.user.uid;
+        console.log("Conta criada com sucesso! UID:", uid);
 
-            // Salva no LocalStorage
-            localStorage.setItem('cliente_well', JSON.stringify(cliente));
+        // Tentamos salvar no Firestore, mas já preparamos o redirecionamento
+        const dadosPerfil = {
+            nome: document.getElementById('nome').value,
+            sobrenome: document.getElementById('sobrenome').value,
+            email: email,
+            celular: document.getElementById('celular').value,
+            endereco: {
+                cep: document.getElementById('cep').value,
+                rua: document.getElementById('rua').value,
+                numero: document.getElementById('numero').value,
+                bairro: document.getElementById('bairro').value,
+                cidade: document.getElementById('cidade').value,
+                uf: document.getElementById('uf').value
+            },
+            dataCadastro: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-            // Feedback visual e redirecionamento
-            alert(`Cadastro realizado com sucesso, ${cliente.nome}! Seja bem-vindo à Well Suplementos.`);
-            window.location.href = 'login.html';
+        return db.collection("usuarios").doc(uid).set(dadosPerfil)
+            .then(() => {
+                alert("✅ Cadastro completo! Bem-vindo à Well Suplementos.");
+                window.location.href = 'minha-conta.html';
+            })
+            .catch((err) => {
+                console.error("Erro ao salvar dados extras:", err);
+                // Se o banco falhar, ainda assim avisamos que a conta foi criada
+                alert("Conta criada! (Aviso: Erro ao salvar endereço. Você pode editar no perfil depois).");
+                window.location.href = 'login.html';
+            });
+    })
+    .catch((error) => {
+        if (error.code === 'auth/email-already-in-use') {
+            alert("⚠️ Este e-mail já está cadastrado. Tente fazer login.");
+        } else {
+            alert("❌ Erro: " + error.message);
+        }
+    });
         });
     }
 });

@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Cole aqui o código que você copiou do console do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDxpI8-UYlIeUhBj6Ne7pJxLEwqDgYWbg",
+    authDomain: "well-suplementos.firebaseapp.com",
+    projectId: "well-suplementos",
+    storageBucket: "well-suplementos.firebasestorage.app",
+    messagingSenderId: "365023622423",
+    appId: "1:365023622423:web:dfc1f9f3915f721a13b352"
+  };
+  
+  // Inicialização Global
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar Pedido - Well Suplementos</title>
@@ -49,6 +69,5 @@
         });
     </script>
     <script src="../js/main.js" defer></script>
-    <script src="../js/carrinho.js"></script>
 </body>
 </html>

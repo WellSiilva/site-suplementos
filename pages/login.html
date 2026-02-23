@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Cole aqui o código que você copiou do console do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDxpI8-UYlIeUhBj6Ne7pJxLEwqDgYWbg",
+    authDomain: "well-suplementos.firebaseapp.com",
+    projectId: "well-suplementos",
+    storageBucket: "well-suplementos.firebasestorage.app",
+    messagingSenderId: "365023622423",
+    appId: "1:365023622423:web:dfc1f9f3915f721a13b352"
+  };
+  
+  // Inicialização Global
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WellSuplementos | Oficial</title>
@@ -78,25 +98,25 @@
     </div>
 </nav>
 <main class="login-page">
-    <div class="login-container">
-        <h1>Login</h1>
+    <div class="login-container" style="max-width: 400px; margin: 50px auto; padding: 30px; border-radius: 12px; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <h1 style="text-align: center; margin-bottom: 25px;">Login</h1>
         
         <form id="formLogin">
             <div class="form-group">
                 <label for="login-email">E-mail</label>
-                <input type="email" id="login-email" class="form-control" style="width: 100%; margin-top: 10px;" placeholder="Seu e-mail" required>
+                <input type="email" id="login-email" class="form-control" style="width: 100%; margin-top: 10px; padding: 12px;" placeholder="Seu e-mail" required>
             </div>
             
             <div class="form-group" style="margin-top: 15px;">
                 <label for="login-senha">Senha</label>
-                <input type="password" id="login-senha" class="form-control" style="width: 100%; margin-top: 10px;" placeholder="Sua senha" required>
+                <input type="password" id="login-senha" class="form-control" style="width: 100%; margin-top: 10px; padding: 12px;" placeholder="Sua senha" required>
             </div>
 
             <div id="login-message" style="display: none; text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px;"></div>
             
-            <button type="submit" class="btn-buy" style="width: 100%; margin-top: 20px;">
-                <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
-            </button>
+<button type="submit" class="btn-action" style="width: 100%; margin-top: 20px; padding: 15px; background-color: #ff8c00; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer;">
+    <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
+</button>
             
             <div class="links-area" style="text-align: center; margin-top: 20px;">
                 <a href="#" style="color: #666; text-decoration: none; font-size: 13px;">Esqueceu a senha?</a>
@@ -106,8 +126,7 @@
                     </a>
                 </div>
             </div>
-        </form>
-    </div>
+        </form> </div>
 </main>
 
 <footer class="footer-site">
@@ -121,7 +140,7 @@
                 <p>Seg à Sex — das 09h às 18h</p>
                 <p>sac@wellsuplementos.com.br</p>
                 <div class="social-icons">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/wells_uplementos/"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-youtube"></i></a>
                 </div>
@@ -130,19 +149,19 @@
             <div class="footer-col">
                 <h3>Institucional</h3>
                 <ul>
-                    <li><a href="#">A empresa</a></li>
-                    <li><a href="#">Segurança</a></li>
-                    <li><a href="#">Política de privacidade</a></li>
+                    <li><a href="empresa.html">A empresa</a></li>
+                    <li><a href="seguranca.html">Segurança</a></li>
+                    <li><a href="politica.html">Política de privacidade</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
                 <h3>Ajuda e Suporte</h3>
                 <ul>
-                    <li><a href="#">Como Comprar</a></li>
-                    <li><a href="#">Entregas</a></li>
-                    <li><a href="#">Pagamentos</a></li>
-                    <li><a href="#">Trocas e devoluções</a></li>
+                    <li><a href="como-comprar.html">Como Comprar</a></li>
+                    <li><a href="entregas.html">Entregas</a></li>
+                    <li><a href="pagamentos.html">Pagamentos</a></li>
+                    <li><a href="trocas.html">Trocas e devoluções</a></li>
                 </ul>
             </div>
 
@@ -164,7 +183,7 @@
             </div>
 
         </div> <div class="footer-bottom">
-            <p>Well Suplementos – CNPJ: 56.412.301/0001-38 – Todos os direitos reservados. 2026.</p>
+            <p>Well Suplementos – CNPJ: 00.000.000/0000-00 – Todos os direitos reservados. 2026.</p>
         </div>
 
     </div> </footer>
@@ -172,7 +191,8 @@
     <a href="https://wa.me/5511933935926" class="whatsapp-float" target="_blank">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
-
+<script src="../js/main.js"></script>
+<script src="../js/login.js"></script>
     <style>
 /* =========================================================
    PÁGINAS DE ACESSO (LOGIN E CADASTRO) - VISUAL CLEAN
@@ -277,8 +297,5 @@ h1 {
     text-decoration: underline;
 }
 </style>
-<script src="../js/main.js" defer></script>
-<script src="../js/carrinho.js"></script>
-<script src="../js/login.js"></script>
 </body>
 </html>
