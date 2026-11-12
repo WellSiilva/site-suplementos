@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "well-suplementos",
   "version": "1.0.0",
   "private": true,
@@ -13,5 +14,9 @@
   "dependencies": {
     "pg": "^8.13.0",
     "dotenv": "^16.4.7"
+=======
+  "dependencies": {
+    "firebase": "^12.9.0"
+>>>>>>> 39d97f60b878daea4f6c6894f2179de87ab50add
   }
 }
