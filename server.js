@@ -172,7 +172,7 @@ async function transaction(req,res){
   client=await pool.connect();await client.query('BEGIN');
   await store.lock(client);
   const state=await store.load(client);db=state.database;sessionData=state.sessions;
-  const before=JSON.stringify({database:db,sessions:sessionData});
+  const beforeDb=JSON.stringify(db), beforeSessions=JSON.stringify(sessionData);
   const previousOrders=new Map(db.orders.map(o=>[o.id,o.status]));
 
   persistSessions();
@@ -180,7 +180,8 @@ async function transaction(req,res){
   const buffered={headersSent:false,writeHead(code,h){status=code;headers=h;this.headersSent=true;},end(data){body=data;}};
   await handle(req,buffered);
   if(status>=500){await client.query('ROLLBACK');}else{
-   if(before!==JSON.stringify({database:db,sessions:sessionData}))await store.persist(client,db,sessionData);
+   if(beforeDb!==JSON.stringify(db))await store.persist(client,db,sessionData);
+   else if(beforeSessions!==JSON.stringify(sessionData))await store.persistSessions(client,JSON.parse(beforeSessions),sessionData);
    if(status>=200&&status<300){for(const o of db.orders){if(previousOrders.get(o.id)!==o.status){const mail=orderMail(o);if(mail)await outbox.enqueue(client,mail);}}}
    await client.query('COMMIT');
   }

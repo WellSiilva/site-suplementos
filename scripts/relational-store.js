@@ -4,18 +4,24 @@ const spec={"products": ["products", {"id": "integer", "name": "text", "cat": "t
 const lock=c=>c.query('SELECT pg_advisory_xact_lock(913721,1)');
 const quote=k=>'"'+k+'"';
 async function load(c){
- const db={admin:null};
- for(const [key,[table,fields]] of Object.entries(spec)){
-  const r=await c.query(`SELECT * FROM ${table} ORDER BY position`);
-  db[key]=r.rows.map(row=>{const obj={...row.extra};for(const [k,t] of Object.entries(fields))if(row[k]!==null)obj[k]=t==='numeric'?Number(row[k]):row[k];return obj;});
- }
- const a=await c.query('SELECT email,salt,hash FROM well_admin_account');db.admin=a.rows[0]||null;
- const addresses=await c.query('SELECT * FROM customer_addresses');for(const row of addresses.rows)db.customers.find(x=>x.id===row.customer_id).address=row.address;
- const items=await c.query('SELECT * FROM order_items ORDER BY position');const history=await c.query('SELECT * FROM order_history ORDER BY position');
- for(const o of db.orders){o.items=items.rows.filter(x=>x.order_id===o.id).map(x=>({id:x.product_id,name:x.name,quantity:x.quantity,unitPrice:Number(x.unit_price),subtotal:Number(x.subtotal)}));o.history=history.rows.filter(x=>x.order_id===o.id).map(x=>x.event);}
- const settings=await c.query('SELECT * FROM well_settings');for(const x of settings.rows)db[x.key]=x.value;
- const sessions={admin:{},customer:{}};for(const x of (await c.query('SELECT * FROM well_sessions')).rows)sessions[x.kind][x.token]={...(x.customer_id?{id:x.customer_id}:{}),exp:Number(x.expires)};
+ const tables=[...Object.values(spec).map(([table])=>[table,'position']),['well_admin_account',null],['customer_addresses',null],['order_items','position'],['order_history','position'],['well_settings',null],['well_sessions',null]];
+ const sql="SELECT "+tables.map(([table,order])=>"(SELECT COALESCE(jsonb_agg(t"+(order?" ORDER BY t."+order:"")+"), '[]'::jsonb) FROM "+table+" t) AS "+table).join(", ");
+ const rows=(await c.query(sql)).rows[0],db={admin:null};
+ for(const [key,[table,fields]] of Object.entries(spec))db[key]=rows[table].map(row=>{const obj={...row.extra};for(const [k,t] of Object.entries(fields))if(row[k]!==null)obj[k]=t==='numeric'?Number(row[k]):row[k];return obj;});
+ const a=rows.well_admin_account[0];db.admin=a?{email:a.email,salt:a.salt,hash:a.hash}:null;
+ const customers=new Map(db.customers.map(x=>[x.id,x]));for(const row of rows.customer_addresses){const c=customers.get(row.customer_id);if(c)c.address=row.address;}
+ const orders=new Map(db.orders.map(o=>[o.id,o]));for(const o of db.orders){o.items=[];o.history=[];}
+ for(const x of rows.order_items){const o=orders.get(x.order_id);if(o)o.items.push({id:x.product_id,name:x.name,quantity:x.quantity,unitPrice:Number(x.unit_price),subtotal:Number(x.subtotal)});}
+ for(const x of rows.order_history){const o=orders.get(x.order_id);if(o)o.history.push(x.event);}
+ for(const x of rows.well_settings)db[x.key]=x.value;
+ const sessions={admin:{},customer:{}};for(const x of rows.well_sessions)sessions[x.kind][x.token]={...(x.customer_id?{id:x.customer_id}:{}),exp:Number(x.expires)};
  return {database:db,sessions};
+}
+async function persistSessions(c,before,after){
+ for(const kind of ['admin','customer']){
+  for(const token of Object.keys(before[kind]))if(!Object.hasOwn(after[kind],token))await c.query('DELETE FROM well_sessions WHERE kind=$1 AND token=$2',[kind,token]);
+  for(const [token,x] of Object.entries(after[kind]))if(JSON.stringify(before[kind][token])!==JSON.stringify(x))await c.query('INSERT INTO well_sessions(kind,token,customer_id,expires) VALUES($1,$2,$3,$4) ON CONFLICT(kind,token) DO UPDATE SET customer_id=EXCLUDED.customer_id, expires=EXCLUDED.expires',[kind,token,x.id||null,x.exp]);
+ }
 }
 async function persist(c,db,sessions){
  // Compatibility adapter: atomic snapshot of normalized entities, serialized across instances.
@@ -32,4 +38,4 @@ async function persist(c,db,sessions){
  for(const [key,value] of Object.entries(db))if(key!=='admin'&&!Object.hasOwn(spec,key))await c.query('INSERT INTO well_settings VALUES($1,$2)',[key,JSON.stringify(value)]);
 }
 async function migrate(pool,seed){const c=await pool.connect();try{await c.query('BEGIN');await lock(c);await c.query(fs.readFileSync(path.join(__dirname,'../migrations/001-relational.sql'),'utf8'));if(!(await c.query('SELECT 1 FROM well_migrations WHERE version=1')).rowCount){let state={database:seed(),sessions:{admin:{},customer:{}}};if((await c.query("SELECT to_regclass('well_store_state') AS name")).rows[0].name){const old=await c.query('SELECT payload FROM well_store_state WHERE id=1');if(old.rowCount)state=old.rows[0].payload;}await persist(c,state.database,state.sessions);await c.query('INSERT INTO well_migrations(version) VALUES(1)');}await c.query('COMMIT');}catch(e){await c.query('ROLLBACK');throw e;}finally{c.release();}}
-module.exports={lock,load,persist,migrate};
+module.exports={lock,load,persist,persistSessions,migrate};
