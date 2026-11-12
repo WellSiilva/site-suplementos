@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: well-suplementos-hml
+    runtime: node
+    plan: starter
+    rootDir: html
+    healthCheckPath: /healthz
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: well-postgres-hml
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: well-postgres-hml
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: well-postgres-hml
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: well-postgres-hml
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: well-postgres-hml
+          property: password
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: APP_ENV
+        value: staging
+      - key: STORE_WHATSAPP
+        sync: false
+      - key: STORE_CONTACT_EMAIL
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESET_EMAIL_FROM
+        sync: false
+      - key: ADMIN_SETUP_TOKEN
+        generateValue: true
+databases:
+  - name: well-postgres-hml
+    plan: basic-256mb
+    databaseName: well_suplementos_hml
+    user: well_admin

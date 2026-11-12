@@ -1,0 +1,10 @@
+/* Stable semantic hooks for dynamic UI; never use record IDs or text values. */
+(()=>{
+ const page=location.pathname.split('/').pop().replace(/\.html$/,'')||'index';
+ const rules=[
+ ['.product','well-store-products-card'],['.product h3','catalog-product-name'],['.product .price','catalog-product-price'],['.product .desc','catalog-product-description'],['.product img','catalog-product-image'],['.cartrow h3','cart-item-name'],['.cartrow .qty strong','cart-item-quantity'],['.summaryline','well-checkout-summary-item'],['.summaryline span','checkout-summary-name'],['.summaryline strong','checkout-summary-value'],['.well-field-error','form-message-validation'],['#rows tr','admin-customers-row'],['#rows tr td:nth-child(1)','admin-customers-name'],['#rows tr td:nth-child(2)','admin-customers-email'],['#rows tr td:nth-child(3)','admin-customers-status'],['#rows tr td:nth-child(4)','admin-customers-order-count'],['#details p','admin-customers-detail-field'],['#categories p','admin-catalog-category-row'],['#brands p','admin-catalog-brand-row'],['#categories button','admin-catalog-category-edit'],['#brands button','admin-catalog-brand-edit'],['#sendWhats a','well-checkout-order-whatsapp-link'],['.empty','store-empty-state']];
+ const set=(el,id)=>{if(!el.hasAttribute('data-test-id'))el.setAttribute('data-test-id',id)};
+ const scan=()=>{for(const [selector,id] of rules){if(selector.startsWith('#rows')||selector.startsWith('#details')){if(page!=='admin-clientes')continue;}document.querySelectorAll(selector).forEach(el=>set(el,id));}
+ document.querySelectorAll('button,a,input,select,textarea,form,dialog,[role="alert"],[role="status"],tr,td,th,img,h1,h2,h3').forEach(el=>{if(el.hasAttribute('data-test-id'))return;const tag=el.tagName.toLowerCase();const key=el.getAttribute('name')||el.getAttribute('data-action')||el.getAttribute('type')||el.getAttribute('role')||tag;const safe=key.toLowerCase().replace(/[^a-z0-9]+/g,'-');set(el,`${page}-dynamic-${tag}-${safe}`);});};
+ scan();new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+})();

@@ -1,0 +1,17 @@
+{
+  "name": "well-suplementos",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "backup:db": "node scripts/backup-postgres.js",
+    "preflight": "node scripts/preflight.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.13.0",
+    "dotenv": "^16.4.7"
+  }
+}

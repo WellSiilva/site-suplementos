@@ -1,0 +1,8 @@
+/* Ajustes restritos ao cabeçalho compartilhado nas telas de autenticação. */
+header.head .search{max-width:340px;min-width:160px;gap:6px}
+header.head .search input{min-width:0}
+header.head .search-submit{border:0;background:#f58220;color:#171717;font-weight:800;border-radius:9px;padding:9px 12px;white-space:nowrap}
+header.head .search-submit:hover{background:#ff9b36}
+header.head .nav-signup{background:#f58220;color:#171717;padding:11px 13px;border-radius:10px}
+header.head .nav-signup:hover{background:#ff9b36;color:#171717}
+@media(max-width:900px){header.head .headin{flex-wrap:wrap;gap:12px;padding:14px 24px}header.head .search{order:3;max-width:none;width:100%;flex-basis:100%}header.head .nav{flex-wrap:wrap;gap:12px}}

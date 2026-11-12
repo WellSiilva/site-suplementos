@@ -1,0 +1,11 @@
+MINHA CONTA - WELL SUPLEMENTOS
+
+1. Abra um terminal na pasta html.
+2. Execute: node server.js
+3. No navegador, acesse: http://localhost:3000/pages/minha-conta-cliente.html
+4. Faça login com uma conta de cliente cadastrada.
+
+NÃO abra o arquivo HTML pelo Explorador de Arquivos (file:///).
+A página utiliza APIs do servidor para consultar os dados e pedidos.
+
+Alterações: nova área do cliente, edição de nome e telefone, lista e detalhes de pedidos, estado vazio e tratamento de erros de servidor.

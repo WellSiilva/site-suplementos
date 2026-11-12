@@ -1,0 +1,8 @@
+/* Notificações: não altera o layout das páginas */
+#well-toast-container{position:fixed;top:18px;right:18px;z-index:2147483000;display:flex;flex-direction:column;gap:10px;width:min(390px,calc(100vw - 32px));pointer-events:none}
+.well-toast{box-sizing:border-box;pointer-events:auto;display:flex;align-items:flex-start;gap:12px;padding:14px 12px;background:#191919;color:#fff;border:1px solid #555;border-left:4px solid #f28c28;border-radius:10px;box-shadow:0 10px 30px #0005;font:14px/1.4 Arial,sans-serif;overflow-wrap:anywhere}
+.well-toast-success{border-left-color:#30b67b}.well-toast-error{border-left-color:#e45c5c}.well-toast-warning{border-left-color:#f28c28}.well-toast-info{border-left-color:#6ea9e7}
+.well-toast-symbol{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:#ffffff18;font-size:17px;font-weight:bold}.well-toast-content{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}.well-toast-content strong{font-size:14px}.well-toast-content span{font-size:13px;color:#e5e5e5}.well-toast-close{border:0;background:transparent;color:#ddd;cursor:pointer;font-size:24px;line-height:22px;padding:0 4px}.well-toast-close:focus-visible{outline:2px solid #f28c28;outline-offset:3px}
+@media(max-width:600px){#well-toast-container{top:10px;left:16px;right:16px;width:auto}.well-toast{padding:12px}}
+
+.well-toast-action{border:1px solid currentColor;border-radius:6px;background:transparent;color:inherit;padding:6px 10px;cursor:pointer;font-weight:700;white-space:nowrap}.well-toast-action:focus-visible{outline:2px solid #ff8c20;outline-offset:2px}

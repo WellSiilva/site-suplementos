@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS well_migrations (version integer PRIMARY KEY, applied_at timestamptz DEFAULT now());
+CREATE TABLE IF NOT EXISTS well_admin_account (id integer PRIMARY KEY CHECK(id=1), email text NOT NULL, salt text NOT NULL, hash text NOT NULL);
+CREATE TABLE IF NOT EXISTS products ("id" integer PRIMARY KEY, "name" text, "cat" text, "price" numeric, "stock" integer, "active" boolean, "desc" text, "label" text, "image" text, position integer NOT NULL, extra jsonb NOT NULL DEFAULT '{}', CHECK(stock >= 0), CHECK(price >= 0));
+CREATE TABLE IF NOT EXISTS customers ("id" text PRIMARY KEY, "name" text, "email" text, "salt" text, "hash" text, "phone" text, "emailVerified" boolean, "createdAt" text, position integer NOT NULL, extra jsonb NOT NULL DEFAULT '{}', UNIQUE(email));
+CREATE TABLE IF NOT EXISTS orders ("id" text PRIMARY KEY, "customerId" text, "status" text, "paymentStatus" text, "subtotal" numeric, "shipping" numeric, "total" numeric, "createdAt" text, "displayId" text, "idempotencyKey" text, position integer NOT NULL, extra jsonb NOT NULL DEFAULT '{}', FOREIGN KEY ("customerId") REFERENCES customers(id), UNIQUE ("customerId", "idempotencyKey"));
+CREATE TABLE IF NOT EXISTS product_lots ("id" text PRIMARY KEY, "productId" integer, "lot" text, "expiry" text, "quantity" integer, position integer NOT NULL, extra jsonb NOT NULL DEFAULT '{}');
+CREATE TABLE IF NOT EXISTS stock_movements ("id" text PRIMARY KEY, "productId" integer, "delta" integer, "balance" integer, "orderId" text, "reason" text, "at" text, position integer NOT NULL, extra jsonb NOT NULL DEFAULT '{}');
+CREATE TABLE IF NOT EXISTS customer_addresses (customer_id text PRIMARY KEY REFERENCES customers(id), address jsonb NOT NULL);
+CREATE TABLE IF NOT EXISTS order_items (order_id text REFERENCES orders(id), position integer, product_id integer REFERENCES products(id), name text, quantity integer CHECK(quantity>0), unit_price numeric, subtotal numeric, PRIMARY KEY(order_id,position));
+CREATE TABLE IF NOT EXISTS order_history (order_id text REFERENCES orders(id), position integer, event jsonb NOT NULL, PRIMARY KEY(order_id,position));
+CREATE TABLE IF NOT EXISTS well_sessions (kind text, token text, customer_id text REFERENCES customers(id), expires bigint NOT NULL, PRIMARY KEY(kind,token));
+CREATE TABLE IF NOT EXISTS well_settings (key text PRIMARY KEY, value jsonb NOT NULL);

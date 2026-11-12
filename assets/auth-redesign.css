@@ -1,0 +1,87 @@
+
+/* Identidade unificada para autenticação */
+.auth-topline{background:#101114;color:#f6f6f6;text-align:center;padding:9px 12px;font-size:12px;font-weight:700;letter-spacing:.12em}
+.auth-header{background:#17181b;color:#fff;box-shadow:0 8px 24px #0002}
+.auth-header .headin{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:17px 0}
+.auth-header .brand{color:#fff;white-space:nowrap;font-size:23px;letter-spacing:-.04em}
+.auth-header .brand b{color:#ff8a1c}
+.auth-header .nav{display:flex;align-items:center;gap:17px;flex-wrap:wrap}
+.auth-header .nav a{color:#f4f4f4;font-size:13px}
+.auth-header .nav a:hover{color:#ff9b36}
+.auth-header .nav .nav-signup{background:#ff8a1c;color:#111;padding:11px 14px;border-radius:9px;font-weight:800}
+.auth-search{display:flex;align-items:center;background:#fff;border-radius:11px;min-width:200px;flex:1;max-width:390px;overflow:hidden}
+.auth-search input{border:0;outline:0;padding:13px 14px;min-width:0;width:100%;font:inherit;background:transparent;color:#111}
+.auth-search button{border:0;background:#ff8a1c;color:#151515;padding:13px 16px;cursor:pointer;font-weight:800}
+.auth-links{display:flex;gap:15px;align-items:center;white-space:nowrap}.auth-links a{color:white;font-size:13px}
+.auth-categories{background:#252629;color:white;border-top:1px solid #ffffff20}
+.auth-categories .wrap{display:flex;gap:24px;align-items:center;overflow-x:auto;white-space:nowrap;padding:13px 0;scrollbar-width:thin}
+.auth-categories a{color:#f0f0f0;font-size:13px;text-decoration:none}.auth-categories a:hover{color:#ff9b36}
+.auth-page{background:radial-gradient(circle at 10% 12%,#ffe7cf 0,transparent 33%),#f6f6f6;min-height:70vh;padding:45px 20px 65px}
+.auth-layout{max-width:1120px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:30px;align-items:start}
+.auth-intro{background:linear-gradient(145deg,#161719,#29221d);border-radius:22px;padding:40px;color:white;min-height:360px;position:sticky;top:24px;overflow:hidden}
+.auth-intro:after{content:'';position:absolute;width:230px;height:230px;border:45px solid #ff8a1c25;border-radius:50%;right:-110px;bottom:-110px}
+.auth-intro .eyebrow{color:#ff9a35;font-size:12px;font-weight:900;letter-spacing:.16em}
+.auth-intro h2{font-size:clamp(30px,3vw,46px);line-height:1.08;margin:18px 0;color:white}
+.auth-intro p{color:#dedede;line-height:1.7}
+.auth-perks{display:grid;gap:14px;margin-top:28px}.auth-perks div{display:flex;align-items:center;gap:11px;font-size:14px}.auth-perks span{color:#ff982e;font-size:19px}
+.auth-page .account-shell{max-width:none;margin:0;padding:35px;border:1px solid #e8e8e8;box-shadow:0 16px 50px #0000000b;border-radius:22px;background:white}
+.auth-page .account-shell h1{font-size:clamp(26px,3vw,34px);margin:0 0 9px;color:#151515}
+.auth-page .account-shell>p{color:#6b6b6b;line-height:1.6}
+.auth-page .account-shell label{font-size:13px;color:#292929;margin:17px 0 7px}
+.auth-page .account-shell input{background:#fbfbfb;border:1px solid #dedede;border-radius:10px;padding:13px 14px}
+.auth-page .account-shell input:focus{background:white;border-color:#f58220;outline:2px solid #f5822030}
+.auth-page .account-shell button[type=submit]{background:#ff8a1c;width:100%;padding:16px;margin-top:23px;border-radius:11px;font-size:15px}
+.auth-page .account-shell button[type=submit]:hover{background:#ef7809}
+.auth-page .signup-prompt{border:1px solid #f5d8bb;background:#fff9f3;padding:20px;border-radius:14px;margin-top:25px}
+.auth-page .signup-cta{display:inline-block;background:#171717;color:white;padding:11px 15px;border-radius:9px;text-decoration:none;font-weight:800;margin-top:10px}
+.auth-page .address-title{margin-top:28px;padding-top:22px}.auth-page .address-title h2{font-size:20px}
+.auth-page .address-grid{gap:4px 16px}
+.auth-footer{background:#161719;color:#bdbdbd;padding:24px 20px;text-align:center;font-size:13px}.auth-footer a{color:#ff9b36}
+.password-control{position:relative}.password-control input{padding-right:80px!important}.password-toggle{position:absolute;right:7px;top:6px;border:0;background:transparent;color:#8b480b;padding:8px;cursor:pointer;font-size:12px;font-weight:800}
+@media(max-width:1000px){.auth-header .headin{gap:12px}.auth-search{order:3;max-width:none;flex-basis:100%}.auth-layout{grid-template-columns:1fr}.auth-intro{position:static;min-height:0;padding:28px}.auth-intro h2{font-size:29px}}
+@media(max-width:620px){.auth-header .nav{order:4;width:100%;justify-content:space-between;gap:10px}.auth-header .nav a{font-size:12px}.auth-links{margin-left:auto}.auth-page{padding:20px 12px 35px}.auth-page .account-shell{padding:22px 18px}.auth-categories .wrap{gap:17px}.auth-page .address-grid{grid-template-columns:1fr}}
+
+/* Correcao pontual: contraste e legibilidade do botao de cadastro no login */
+.auth-page .account-shell .signup-prompt a.signup-cta,
+.auth-page .account-shell .signup-prompt a.signup-cta:link,
+.auth-page .account-shell .signup-prompt a.signup-cta:visited {
+  display:inline-flex;align-items:center;justify-content:center;
+  background-color:#ff8a1c !important; color:#151515 !important;
+  text-decoration:none !important; font-weight:800; opacity:1;
+}
+.auth-page .account-shell .signup-prompt a.signup-cta:hover,
+.auth-page .account-shell .signup-prompt a.signup-cta:focus-visible {
+  background-color:#ff9f3d !important; color:#151515 !important;
+}
+
+/* Ajuste pontual dos botoes de autenticacao, sem alterar outros componentes. */
+.auth-page .account-shell .signup-prompt .signup-cta {
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  background:#ff8a1c !important; color:#151515 !important; -webkit-text-fill-color:#151515 !important;
+  opacity:1 !important; visibility:visible !important; font-size:14px !important;
+  min-width:175px; min-height:43px;
+}
+.auth-page .account-shell .password-control {position:relative;}
+.auth-page .account-shell .password-control input {padding-right:100px !important;}
+.auth-page .account-shell .password-control button.password-toggle {
+  position:absolute !important; right:8px !important; top:50% !important; transform:translateY(-50%) !important;
+  margin:0 !important; padding:8px 12px !important; width:auto !important; min-width:75px !important;
+  height:auto !important; background:#ff8a1c !important; color:#151515 !important;
+  border:0 !important; border-radius:8px !important; font-size:12px !important;
+  line-height:1.3 !important; z-index:1;
+}
+
+/* Botao de visibilidade: somente nas telas de autenticacao */
+.auth-page .account-shell .password-control input {padding-right:52px !important;}
+.auth-page .account-shell .password-control button.password-toggle {
+ position:absolute !important;top:50% !important;right:9px !important;transform:translateY(-50%) !important;
+ display:flex !important;align-items:center !important;justify-content:center !important;
+ width:38px !important;min-width:38px !important;max-width:38px !important;
+ height:38px !important;min-height:38px !important;padding:0 !important;margin:0 !important;
+ background:transparent !important;color:#353535 !important;border:0 !important;border-radius:8px !important;
+ box-shadow:none !important;cursor:pointer;z-index:2;
+}
+.auth-page .account-shell .password-control button.password-toggle:hover {background:#f3f3f3 !important;}
+.auth-page .account-shell .password-control button.password-toggle:focus-visible {outline:2px solid #f58220 !important;outline-offset:2px;}
+.auth-page .account-shell .password-control button.password-toggle svg[hidden] {display:none !important;}
+.auth-page .account-shell .signup-prompt a.signup-cta span {color:#151515 !important;-webkit-text-fill-color:#151515 !important;}

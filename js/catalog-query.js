@@ -1,0 +1,1 @@
+window.addEventListener('load',()=>{const q=new URLSearchParams(location.search).get('q');if(!q)return;const input=document.getElementById('searchInput');if(!input)return;input.value=q;input.dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('catalogo')?.scrollIntoView({behavior:'smooth'});});

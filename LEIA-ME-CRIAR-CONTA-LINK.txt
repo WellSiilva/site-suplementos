@@ -1,0 +1,1 @@
+NOVO: link "Criar minha conta" no menu das páginas principais da loja, levando ao cadastro existente em /pages/criar-conta.html. Na tela Entrar, destaque para o cadastro. O cadastro mantém telefone, CEP e endereço. Inicie o servidor: node server.js; acesse http://localhost:3000.

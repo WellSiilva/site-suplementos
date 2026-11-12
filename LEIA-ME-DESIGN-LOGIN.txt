@@ -1,0 +1,1 @@
+Login e cadastro reformulados com busca e categorias. Execute node server.js e abra http://localhost:3000/pages/entrar.html ou /pages/criar-conta.html. Não abra os arquivos via file://. Teste login, cadastro e pesquisa com o servidor ativo.

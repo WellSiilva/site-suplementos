@@ -1,0 +1,1 @@
+Execute npm start na pasta html. Consulte README-HOSPEDAGEM.md para publicar com segurança. Configure STORE_WHATSAPP antes de receber pedidos.

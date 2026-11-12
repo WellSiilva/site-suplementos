@@ -1,0 +1,10 @@
+data/*
+!data/database.json
+.env
+node_modules/
+
+*.dump
+*.backup
+*.sql.gz
+.env.*
+!.env.example

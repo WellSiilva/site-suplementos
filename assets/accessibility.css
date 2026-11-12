@@ -1,0 +1,7 @@
+/* Etapa 5: acessibilidade sem redesenhar o site */
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #ff9d35!important;outline-offset:3px!important}
+.well-skip-link{position:fixed;left:12px;top:-100px;z-index:2147483647;background:#151515;color:#fff;padding:12px 18px;border:2px solid #ff9d35;border-radius:6px}
+.well-skip-link:focus{top:12px}
+.well-loading{cursor:progress!important;opacity:.75}
+.well-loading::after{content:' …';display:inline}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
