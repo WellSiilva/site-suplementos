@@ -190,7 +190,19 @@ async function transaction(req,res){
  finally{if(client)client.release();}
 }
 async function start(){
- if(!process.env.DB_HOST||!process.env.DB_NAME||!process.env.DB_USER||!process.env.DB_PASSWORD)throw Error('Configure DB_HOST, DB_NAME, DB_USER e DB_PASSWORD no .env');
+ if (
+    !process.env.DATABASE_URL &&
+    (
+        !process.env.DB_HOST ||
+        !process.env.DB_NAME ||
+        !process.env.DB_USER ||
+        !process.env.DB_PASSWORD
+    )
+) {
+    throw Error(
+        'Configure DATABASE_URL ou DB_HOST, DB_NAME, DB_USER e DB_PASSWORD'
+    );
+}
  await store.migrate(pool,seed);
  await pool.query(fs.readFileSync(path.join(ROOT,'migrations/002-mail-outbox.sql'),'utf8'));
  outbox.start(pool);
