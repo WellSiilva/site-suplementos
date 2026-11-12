@@ -166,7 +166,18 @@ if(req.method!=='GET'&&req.method!=='HEAD')return fail(res,405,'Método não per
 }catch(e){if(e.statusCode===400&&!res.headersSent)return fail(res,400,'Dados da requisição inválidos. Confira o formulário.');console.error(e.message);if(!res.headersSent){if(!pageError(req,res,500))fail(res,500,'Não foi possível processar a solicitação')}} }
 // One state row is locked for each API request. The local queue protects the legacy in-memory handlers.
 let queue=Promise.resolve();
+// WELL_PUBLIC_CACHE_V3: only anonymous, public GET responses; never sessions.
+const publicCache=new Map();
+const publicCachePaths=new Set(['/api/products','/api/store-config']);
+const PUBLIC_CACHE_TTL=15000;
+function publicCacheKey(req){return req.method==='GET'&&publicCachePaths.has(req.url)?req.url:null;}
+
 async function transaction(req,res){
+ const cacheKey=publicCacheKey(req);
+ if(req.method!=='GET'&&req.method!=='HEAD')publicCache.clear();
+ if(cacheKey){const hit=publicCache.get(cacheKey);if(hit&&hit.expires>Date.now()){
+  req.resume();if(!res.destroyed){res.writeHead(200,{...hit.headers,'X-Well-Cache':'HIT'});res.end(hit.body);}return;
+ }}
  let client;
  try{
   client=await pool.connect();await client.query('BEGIN');
@@ -184,6 +195,10 @@ async function transaction(req,res){
    else if(beforeSessions!==JSON.stringify(sessionData))await store.persistSessions(client,JSON.parse(beforeSessions),sessionData);
    if(status>=200&&status<300){for(const o of db.orders){if(previousOrders.get(o.id)!==o.status){const mail=orderMail(o);if(mail)await outbox.enqueue(client,mail);}}}
    await client.query('COMMIT');
+  }
+  if(cacheKey&&status===200&&typeof body==='string'&&!Object.keys(headers).some(k=>k.toLowerCase()==='set-cookie')){
+   publicCache.set(cacheKey,{headers:{...headers},body,expires:Date.now()+PUBLIC_CACHE_TTL});
+   headers={...headers,'X-Well-Cache':'MISS'};
   }
   req.resume();if(!res.destroyed){res.writeHead(status,headers);res.end(body);}
 
